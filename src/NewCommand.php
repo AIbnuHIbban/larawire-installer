@@ -24,7 +24,7 @@ class NewCommand extends Command
         $this
             ->setName('new')
             ->setDescription('Create a new Laravel + Livewire application')
-            ->addArgument('name', InputArgument::OPTIONAL)
+            ->addArgument('name', InputArgument::OPTIONAL);
             // ->addOption('auth', null, InputOption::VALUE_NONE, 'Installs the Laravel authentication scaffolding')
     }
 
