@@ -1,0 +1,40 @@
+{
+    "name": "larawire/installer",
+    "description": "Laravel + Livewire application installer.",
+    "keywords": ["larawire"],
+    "license": "MIT",
+    "require": {
+        "php": "^7.2.9",
+        "ext-zip": "*",
+        "guzzlehttp/guzzle": "^6.0|^7.0",
+        "symfony/console": "^4.0|^5.0",
+        "symfony/filesystem": "^4.0|^5.0",
+        "symfony/process": "^4.2|^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "bin": [
+        "bin/larawire"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Larawire\\Installer\\Console\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Larawire\\Installer\\Console\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
