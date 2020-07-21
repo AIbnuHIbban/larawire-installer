@@ -7,6 +7,7 @@ use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -24,7 +25,8 @@ class NewCommand extends Command
         $this
             ->setName('new')
             ->setDescription('Create a new Laravel + Livewire application')
-            ->addArgument('name', InputArgument::OPTIONAL);
+            ->addArgument('name', InputArgument::OPTIONAL)
+            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Forces install even if the directory already exists');
             // ->addOption('auth', null, InputOption::VALUE_NONE, 'Installs the Laravel authentication scaffolding')
     }
 
@@ -135,18 +137,12 @@ class NewCommand extends Command
     protected function download($zipFile, $version = 'master')
     {
         switch ($version) {
-            case 'develop':
-                $filename = 'latest-develop.zip';
-                break;
-            case 'auth':
-                $filename = 'latest-auth.zip';
-                break;
             case 'master':
-                $filename = 'latest.zip';
+                $filename = 'v1.0.zip';
                 break;
         }
 
-        $response = (new Client)->get('http://cabinet.laravel.com/'.$filename);
+        $response = (new Client)->get('https://github.com/AIbnuHIbban/larawire-installer/raw/master/'.$filename);
 
         file_put_contents($zipFile, $response->getBody());
 
@@ -167,7 +163,7 @@ class NewCommand extends Command
         $response = $archive->open($zipFile, ZipArchive::CHECKCONS);
 
         if ($response === ZipArchive::ER_NOZIP) {
-            throw new RuntimeException('The zip file could not download. Verify that you are able to access: http://cabinet.laravel.com/latest.zip');
+            throw new RuntimeException('The zip file could not download. Verify that you are able to access: https://github.com/AIbnuHIbban/larawire-installer/raw/master/v1.0.zip');
         }
 
         $archive->extractTo($directory);
@@ -219,15 +215,7 @@ class NewCommand extends Command
      * @param  \Symfony\Component\Console\Input\InputInterface  $input
      * @return string
      */
-    protected function getVersion(InputInterface $input)
-    {
-        if ($input->getOption('dev')) {
-            return 'develop';
-        }
-
-        if ($input->getOption('auth')) {
-            return 'auth';
-        }
+    protected function getVersion(InputInterface $input){
 
         return 'master';
     }
